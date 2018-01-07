@@ -27,6 +27,11 @@ module TaxJp
       return 0.45 if value > 40_000_000
     end
 
+    # 所得税額
+    def tax_value
+      (value * tax_rate)
+    end
+
     # 控除額
     def deductions
       # 195万円以下	5％	0円
@@ -46,7 +51,7 @@ module TaxJp
     end
 
     def with_tax_value
-      return value - (value * tax_rate) + deductions
+      return value - tax_value + deductions
     end
   end
 end
