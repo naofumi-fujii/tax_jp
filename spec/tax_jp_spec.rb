@@ -41,7 +41,7 @@ RSpec.describe TaxJp do
         let(:deductions) {deductions}
 
         example do
-          result = TaxJp::IncomeTax.new(value).income_tax
+          result = TaxJp::Income.new(value).income_tax
           expected = value - (value * rate) + deductions
           expect(result).to eq expected
         end

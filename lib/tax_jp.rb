@@ -2,7 +2,7 @@ require "tax_jp/version"
 
 module TaxJp
   # Your code goes here...
-  class IncomeTax
+  class Income
     def initialize value
       @value = value
     end
