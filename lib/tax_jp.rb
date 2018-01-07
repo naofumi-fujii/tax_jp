@@ -49,9 +49,5 @@ module TaxJp
       # 4,000万円超	45％	4,796,000円
       return 4_796_000 if value > 40_000_000
     end
-
-    def with_tax_value
-      return value - tax_value + deductions
-    end
   end
 end
