@@ -9,7 +9,7 @@ module TaxJp
 
     attr_reader :value
 
-    # 所得税
+    # 所得税率
     def tax_rate
       # 195万円以下	5％	0円
       return 0.05 if value <= 195 * 10_000
