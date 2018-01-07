@@ -3,7 +3,15 @@ require "tax_jp/version"
 module TaxJp
   # Your code goes here...
   class IncomeTax
-    def self.income_tax value
+    def initialize value
+      @value = value
+    end
+
+    def value
+      @value
+    end
+
+    def income_tax
       # 195万円以下	5％	0円
       if value <= 195 * 10000
         return value - value * 0.05 + 0
