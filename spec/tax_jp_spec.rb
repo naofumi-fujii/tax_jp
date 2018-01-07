@@ -34,15 +34,17 @@ RSpec.describe TaxJp do
 
     [4000 * 10000, 0.45, 4796000],
   ].each do |value, rate, deductions|
-    context "#{value} #{rate} #{deductions}" do
-      let(:value) {value}
-      let(:rate) {rate}
-      let(:deductions) {deductions}
+    describe "#income_tax" do
+      context "#{value} #{rate} #{deductions}" do
+        let(:value) {value}
+        let(:rate) {rate}
+        let(:deductions) {deductions}
 
-      example do
-        result = TaxJp::IncomeTax.income_tax value
-        expected = value - (value * rate) + deductions
-        expect(result).to eq expected
+        example do
+          result = TaxJp::IncomeTax.income_tax value
+          expected = value - (value * rate) + deductions
+          expect(result).to eq expected
+        end
       end
     end
   end
