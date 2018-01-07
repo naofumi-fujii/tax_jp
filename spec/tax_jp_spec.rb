@@ -3,18 +3,7 @@ RSpec.describe TaxJp do
     expect(TaxJp::VERSION).not_to be nil
   end
 
-  describe "#with_tax_value" do
-    # https://www.nta.go.jp/taxanswer/shotoku/2260.htm
-    # 所得税の速算表
-    # 課税される所得金額	税率	控除額
-    # 195万円以下	5％	0円
-    # 195万円を超え 330万円以下	10％	97,500円
-    # 330万円を超え 695万円以下	20％	427,500円
-    # 695万円を超え 900万円以下	23％	636,000円
-    # 900万円を超え 1,800万円以下	33％	1,536,000円
-    # 1,800万円を超え4,000万円以下	40％	2,796,000円
-    # 4,000万円超	45％	4,796,000円
-
+  let(:test_data) do
     [
       [195 * 10000, 0.05, 0],
 
@@ -33,19 +22,27 @@ RSpec.describe TaxJp do
       [1800 * 10000 + 1, 0.40, 2796000],
       [4000 * 10000, 0.40, 2796000],
 
-      [4000 * 10000, 0.45, 4796000],
-    ].each do |value, rate, deductions|
-      context "#{value} #{rate} #{deductions}" do
-        let(:value) {value}
-        let(:rate) {rate}
-        let(:deductions) {deductions}
+      [4000 * 10000 + 1, 0.45, 4796000],
+    ]
+  end
 
-        example do
-          result = TaxJp::Income.new(value).with_tax_value
-          expected = value - (value * rate) + deductions
-          expect(result).to eq expected
-        end
-      end
+  # https://www.nta.go.jp/taxanswer/shotoku/2260.htm
+  # 所得税の速算表
+  # 課税される所得金額	税率	控除額
+  # 195万円以下	5％	0円
+  # 195万円を超え 330万円以下	10％	97,500円
+  # 330万円を超え 695万円以下	20％	427,500円
+  # 695万円を超え 900万円以下	23％	636,000円
+  # 900万円を超え 1,800万円以下	33％	1,536,000円
+  # 1,800万円を超え4,000万円以下	40％	2,796,000円
+  # 4,000万円超	45％	4,796,000円
+
+  example do
+    test_data.each do |value, tax_rate, deductions|
+      obj = TaxJp::Income.new(value)
+      expect(obj.tax_rate).to eq tax_rate
+      expect(obj.deductions).to eq deductions
+      expect(obj.tax_value).to eq value * tax_rate
     end
   end
 end
