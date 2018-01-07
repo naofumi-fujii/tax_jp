@@ -3,7 +3,7 @@ RSpec.describe TaxJp do
     expect(TaxJp::VERSION).not_to be nil
   end
 
-  describe "#income_tax" do
+  describe "#with_tax_value" do
     # https://www.nta.go.jp/taxanswer/shotoku/2260.htm
     # 所得税の速算表
     # 課税される所得金額	税率	控除額
@@ -41,7 +41,7 @@ RSpec.describe TaxJp do
         let(:deductions) {deductions}
 
         example do
-          result = TaxJp::Income.new(value).income_tax
+          result = TaxJp::Income.new(value).with_tax_value
           expected = value - (value * rate) + deductions
           expect(result).to eq expected
         end

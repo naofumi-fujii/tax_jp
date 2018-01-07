@@ -43,7 +43,7 @@ module TaxJp
       return 4_796_000 if value > 40_000_000
     end
 
-    def income_tax
+    def with_tax_value
       return value - (value * tax_rate) + deductions
     end
   end
